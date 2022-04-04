@@ -1,0 +1,407 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+        <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+        <style>
+          body {
+            display: none;
+          }
+        </style>
+    </head>
+    <body>  
+      <div id="content">
+        <header class="p-3 vector-primary text-white">
+            <div class="d-flex flex-wrap align-items-center justify-content-start justify-content-lg-start">
+              <img class="navbar-brand" src="https://cdn.discordapp.com/attachments/660161395874332692/960091401104814100/logo.png">
+
+              <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mr-auto">
+                <li><a id="homeNav" href="#" class="nav-link px-2 text-secondary">Home</a></li>
+                <li><a id="searchPatientNav" href="#" class="nav-link px-2 text-white">Patients</a></li>
+                <li><a id="scheduleNav" href="#" class="nav-link px-2 text-white">Schedules</a></li>
+                <li><a id="medicalRecordsNav" href="#" class="nav-link px-2 text-white">Medical Records</a></li>
+              </ul>
+      
+              <div class="text-end">
+                <button id="logoutButton" type="button" class="btn btn-outline-light me-2">Logout</button>
+              </div>
+            </div>
+        </header>
+        <div id="homeContainer" class="container mis-container">
+          <div class="headerDiv">
+            <h1>Recent Medical Record</h1>
+          </div>
+          <div id="homeTableParent" class="mis-card-overflow">
+            <table class="table table-vector">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Fullname</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Doctor Name</th>
+                </tr>
+              </thead>
+              <tbody id="homeTable"></tbody>
+            </table>
+          </div>
+          <div id="homeDetailMedicalRecord" class="display-none mis-card-overflow">
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #212732 !important">
+                  <div class="card-body" style="background-color: #212732 !important">
+                    <div class="d-flex flex-column align-items-center text-center" style="background-color: #212732;">
+                      <img id="homeDetailImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4 id="homeDetailFullname"></h4>
+                          <div class="profiles">
+                            <div class="profile">Gender<span id="homeDetailGender"></span></div>
+                            <div class="profile">DOB<span id="homeDetailDOB"></span></div>
+                            <div class="profile">Phone Number<span id="homeDetailPhoneNumber"></span></div>
+                            <div class="profile">CID<span id="homeDetailCID"></span></div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8" id="homeDetailTableParent">
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Doctor Name</th>
+                    </tr>
+                  </thead>
+                  <tbody id="homeDetailTable"></tbody>
+                </table>
+              </div>
+              <div class="col-md-8" id="homeDetailMedicalRecordForm">
+                <div id="homeDetailMedicalRecordById" class="mis-card-overflow">
+                  <div class="card mb-3" style="background-color: #212732;">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="homeDetailMedicalRecordTitle">Title</label>
+                        <input type="text" class="form-control" id="homeDetailMedicalRecordTitle" placeholder="Title" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="homeDetailMedicalRecordComplaint">Complaint</label>
+                        <textarea class="form-control" id="homeDetailMedicalRecordComplaint" placeholder="Sakit Kepala" rows="3" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="homeDetailMedicalRecordDiagnosis">Diagnosis</label>
+                        <textarea class="form-control" id="homeDetailMedicalRecordDiagnosis" placeholder="Migrain" rows="3" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="homeDetailMedicalRecordDoctor">Doctor</label>
+                        <input type="text" class="form-control" id="homeDetailMedicalRecordDoctor" placeholder="Title" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+        </div>
+        <div id="searchPatientsContainer" class="container mis-container">
+          <div class="headerDiv searchDiv">
+            <h1 class="d-inline-block">Search Patients</h1>
+            <div class="form-inline d-inline-block">
+              <input id="searchPatientsQuery" class="form-control mr-sm-2" type="text" placeholder="Search by CID / Name" aria-label="Search">
+              <button id="searchPatientsButton" class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
+            </div>
+          </div>
+          <div id="patientProfileCards"></div>
+          <div id="patientDetailProfile" class="display-none mis-card-overflow">
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #212732 !important">
+                  <div class="card-body" style="background-color: #212732 !important;">
+                    <div class="d-flex flex-column align-items-center text-center" style="background-color: #212732;">
+                      <img id="detailImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4 id="detailFullname"></h4>
+                        <div class="profiles">
+                          <div class="profile">Gender<span id="detailGender"></span></div>
+                          <div class="profile">DOB<span id="detailDOB"></span></div>
+                          <div class="profile">Phone Number<span id="detailPhoneNumber"></span></div>
+                          <div class="profile">CID<span id="detailCID"></span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8" id="patientDataProfileTable">
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Doctor Name</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detailTable"></tbody>
+                </table>
+              </div>
+              <div class="col-md-8" id="patientDetailMedicalRecordForm">
+                <div class="mis-card-overflow">
+                  <div class="card mb-3" style="background-color: #212732;">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="patientDetailMedicalRecordTitle">Title</label>
+                        <input type="text" class="form-control" id="patientDetailMedicalRecordTitle" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="patientDetailMedicalRecordComplaint">Complaint</label>
+                        <textarea class="form-control" id="patientDetailMedicalRecordComplaint" rows="3" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="patientDetailMedicalRecordDiagnosis">Diagnosis</label>
+                        <textarea class="form-control" id="patientDetailMedicalRecordDiagnosis" rows="3" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="patientDetailMedicalRecordDoctor">Doctor</label>
+                        <input type="text" class="form-control" id="patientDetailMedicalRecordDoctor" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+          <div id="patientFormCards" class="display-none mis-card-overflow">
+            <div class="card mb-3" style="background-color: #212732;">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="fullName">Fullname</label>
+                  <input type="text" class="form-control" id="fullname" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select class="form-control" id="gender" disabled>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="dateofbirth">Date of Birth</label>
+                  <input type="date" class="form-control" id="dateofbirth" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="phonenumber">Phone Number</label>
+                  <input type="text" class="form-control" id="phonenumber" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="cid">CID</label>
+                  <input type="text" class="form-control" id="cid" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="cid">Title</label>
+                  <input type="text" class="form-control" id="title" placeholder="Title" maxlength="80">
+                </div>
+                <div class="form-group">
+                  <label for="cid">Complaint</label>
+                  <textarea class="form-control" id="complaint" placeholder="Sakit Kepala" rows="3" maxlength="5000"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="cid">Diagnosis</label>
+                  <textarea class="form-control" id="diagnosis" placeholder="Migrain" rows="3" maxlength="5000"></textarea>
+                </div>
+                <button id="submitFormCards" type="button" class="btn btn-vector-success">Save</button>
+                <p id="submitFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
+              </div>
+            </div>
+          </div>
+          <div id="searchNotFound" class="card" style="display: none;">
+            <div class="card-body">
+              <h5 class="card-title">Patient Not Found.</h5>
+            </div>
+          </div>
+          <div id="successData" class="card" style="display: none;">
+            <div class="card-body">
+              <h5 class="card-title">Data saved successfully!</h5>
+            </div>
+          </div>
+        </div>
+        <div id="scheduleContainer" class="container mis-container">
+          <div class="headerDiv searchDiv" id="scheduleHeader">
+            <h1 class="d-inline-block">Schedules</h1>
+            <div class="form-inline d-inline-block">
+              <button id="createSchedule" class="btn btn-vector-success" type="button">Create Schedule</button>
+            </div>
+          </div>
+          <div class="mis-card-overflow" id="scheduleParentTable">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Fullname</th>
+                  <th scope="col">Phone number</th>
+                  <th scope="col">Date and time</th>
+                  <th scope="col">Complaint</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="schedulesTable"></tbody>
+            </table>
+          </div>
+          <div id="scheduleFormCards" class="display-none mis-card-overflow">
+            <div class="card mb-3" style="background-color: #212732;">
+              <div class="card-body">
+                <label for="scheduleCID">CID</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="scheduleCID" placeholder="Input CID">
+                  <div class="input-group-append">
+                    <button id="scheduleSearchCID" class="btn btn-primary" type="button">Search & Verify</button>
+                    <button id="scheduleResetSearchCID" class="btn btn-vector-warning display-none" type="button">Reset CID</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="scheduleFullname">Fullname</label>
+                  <input type="text" class="form-control" id="scheduleFullname" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="scheduleGender">Gender</label>
+                  <select class="form-control" id="scheduleGender" disabled>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="schedulePhoneNumber">Phone Number</label>
+                  <input type="text" class="form-control" id="schedulePhoneNumber" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="scheduleDateTime">Date And Time</label>
+                  <input type="datetime-local" class="form-control" id="scheduleDateTime">
+                </div>
+                <div class="form-group">
+                  <label for="scheduleComplaint">Complaint</label>
+                  <textarea class="form-control" id="scheduleComplaint" placeholder="Sakit Kepala" rows="3" maxlength="5000"></textarea>
+                </div>
+                <button id="submitSchedule" type="button" class="btn btn-vector-success">Save</button>
+                <p id="scheduleFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
+                <p id="scheduleFormCIDError" style="color: red; margin-top: 8px; display: none;">CID not found!</p>
+              </div>
+            </div>
+          </div>
+          <div id="scheduleNonDoctorFormCards" class="display-none mis-card-overflow">
+            <div class="card mb-3" style="background-color: #212732;">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="scheduleNonDoctorDateTime">Date And Time</label>
+                  <input type="datetime-local" class="form-control" id="scheduleNonDoctorDateTime">
+                </div>
+                <div class="form-group">
+                  <label for="scheduleNonDoctorComplaint">Complaint</label>
+                  <textarea class="form-control" id="scheduleNonDoctorComplaint" placeholder="Sakit Kepala" rows="3" maxlength="5000"></textarea>
+                </div>
+                <button id="submitNonDoctorSchedule" type="button" class="btn btn-vector-success">Save</button>
+                <p id="scheduleNonDoctorFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
+              </div>
+            </div>
+          </div>
+          <div id="queueSection">
+            <h5 style="color: #e4e4e4 !important;">Schedule : <span id="queueNumber"></span></h5><br>
+            <h5 style="color: #e4e4e4 !important;">Please see the doctor at Pillbox Medical Center Lobby, Los Santos. Come on time!</h5>
+          </div>
+          <div id="successSubmitNonDoctorSection">
+            <h5 style="color: #e4e4e4 !important;">Anda telah dimasukan kedalam waiting list, tunggu sampai dokter menghubungi anda</h5>
+          </div>
+        </div>
+        <div id="medicalRecordsContainer" class="container mis-container">
+          <div class="headerDiv searchDiv">
+            <h1 class="d-inline-block">Medical Records</h1>
+            <div class="form-inline d-inline-block">
+              <button id="createMedicalRecordsButton" class="btn btn-vector-success">Create New Medical Record</button>
+              <input id="searchMedicalRecordsQuery" class="form-control mr-sm-2" type="text" placeholder="Search by CID / Name" aria-label="Search">
+              <button id="searchMedicalRecordsButton" class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
+            </div>
+          </div>
+          <div class="mis-card-overflow" id="medicalRecordsTableParent">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Fullname</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="medicalRecordsTable"></tbody>
+            </table>
+          </div>
+          <div id="medicalRecordFormCards" class="display-none mis-card-overflow">
+            <div class="card mb-3" style="background-color: #212732;">
+              <div class="card-body">
+                <label for="medicalRecordCID">CID</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="medicalRecordCID" placeholder="Input CID">
+                  <div class="input-group-append">
+                    <button id="medicalRecordSearchCID" class="btn btn-primary" type="button">Search & Verify</button>
+                    <button id="medicalRecordResetSearchCID" class="btn btn-vector-warning display-none" type="button">Reset CID</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordFullname">Fullname</label>
+                  <input type="text" class="form-control" id="medicalRecordFullname" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordGender">Gender</label>
+                  <select class="form-control" id="medicalRecordGender" disabled>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordPhoneNumber">Phone Number</label>
+                  <input type="text" class="form-control" id="medicalRecordPhoneNumber" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordComplaint">Title</label>
+                  <input type="text" class="form-control" id="medicalRecordTitle" placeholder="Title" maxlength="80">
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordComplaint">Complaint</label>
+                  <textarea class="form-control" id="medicalRecordComplaint" placeholder="Sakit Kepala" rows="3" maxlength="5000"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="medicalRecordDiagnosis">Diagnosis</label>
+                  <textarea class="form-control" id="medicalRecordDiagnosis" placeholder="Kanker Otak" rows="3" maxlength="5000"></textarea>
+                </div>
+                <button id="submitMedicalRecord" type="button" class="btn btn-vector-success">Save</button>
+                <p id="medicalRecordFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
+                <p id="medicalRecordFormCIDError" style="color: red; margin-top: 8px; display: none;">CID not found!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="loadingContainer" class="container">
+          <div class="headerDiv">
+            <h1>Loading. . .</h1>
+          </div>
+        </div>
+      </div>
+      <div class="modal" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content" style="background-color: #212732 !important;">
+            <div class="modal-header">
+              <h5 class="modal-title" style="color: #e4e4e4 !important;" id="modalLabel">Confirmation</h5>
+            </div>
+            <div class="modal-body" style="color: #e4e4e4 !important;" id="modalBody"></div>
+            <div class="modal-footer">
+              <button type="button" id="confirmationButtonCancel" class="btn btn-vector-warning" data-bs-dismiss="modal">No</button>
+              <button type="button" id="confirmationButtonSave" class="btn btn-vector-success">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>
+
+<script src="js/app.js" type="text/javascript"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/popper.js"></script>

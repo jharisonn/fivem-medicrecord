@@ -1,0 +1,241 @@
+.logo {
+    width: 9.11vw;
+    height: 2.44vw;
+}
+
+#content {
+    position: absolute;
+    border-radius: 5px;
+    width: 75vw;
+    height: 50vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+.headerDiv {
+    padding: 1.67vw 0vw;
+    margin-bottom: 1.67vw;
+    border-radius: 0.26vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.closeButton {
+    float: right;
+    font-size: 1.25vw;
+    font-weight: 700;
+    line-height: 1;
+    color: white;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+.mis-container {
+    overflow-y: scroll;
+    max-height: 45vw;
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mis-container::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.display-none {
+    display: none;
+}
+
+.mis-card {
+    margin-bottom: 1.04vw;
+}
+
+#patientProfileCards {
+    padding-right: 1.67vw;
+    max-height: 30vw;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#patientProfileCards::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.mis-card-overflow {
+    padding-right: 1.67vw;
+    max-height: 30vw;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mis-card-overflow::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+
+.profiles {
+    margin-top: 1.04vw;
+    display: inline-block;
+    background-color: #212732;
+}
+  
+.profile {
+    width: 50vw;
+    height: auto;
+    opacity: 1;
+    float: left;
+    margin-bottom: 1.04vw;
+    overflow: hidden;
+    z-index: 2;
+    color: #e4e4e4;
+}
+  
+.profile>span {
+    line-height: 2.08vw;
+    font-size: 1.04vw;
+    font-weight: 600;
+    display: block;
+    font-style: none;
+    color: #e4e4e4;
+}
+  
+.active .profile {
+    opacity: 1;
+}
+
+.btn-vector-success {
+    color: #000000 !important;
+    background-color: #a5f487 !important;
+    border-color: #a5f487 !important;
+    padding: 0.312vw 0.625vw !important;
+    font-size: 0.83vw !important;
+}
+
+.btn-vector-success:hover {
+    background-color: #91d577;
+}
+
+.btn-vector-warning {
+    background-color: #f7b375 !important;
+    border-color: #f7b375 !important;
+    color: #000000 !important;
+    padding: 0.312vw 0.625vw !important;
+    font-size: 0.83vw !important;
+}
+
+.btn-vector-warning:hover {
+    background-color: #d89f69;
+}
+
+.vector-primary {
+    background-color: #212732;
+}
+
+.medicalrecord-data:hover {
+    cursor: pointer;
+}
+
+th {
+    color: #e4e4e4 !important;
+}
+
+td {
+    max-width: 10vw !important;
+    word-wrap: break-word;
+    color: #e4e4e4 !important;
+}
+
+.mb-0 {
+    color: #000000 !important;
+}
+
+.text-secondary {
+    color: #000000 !important;
+}
+
+label {
+    color: #000000 !important;
+}
+
+h1 {
+    font-size: 2.083vw !important;
+}
+
+h4 {
+    font-size: 1.25vw !important;
+    color: #e4e4e4 !important;
+}
+
+h5 {
+    font-size: 1.25vw !important;
+    color: #000000 !important;
+}
+
+label {
+    color: #e4e4e4 !important;
+}
+
+input[type="text"] {
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+input[type="text"]:focus {
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+textarea {
+    background-color: #212732 !important;
+    color: #e4e4e4 !important;
+}
+
+textarea:disabled {
+    background-color: #37474f !important;
+    color: #e4e4e4 !important;
+}
+
+textarea:focus {
+    background-color: #212732 !important;
+    color: #e4e4e4 !important;
+}
+
+input[type="text"]:disabled {
+    background-color: #37474f;
+    color: #e4e4e4;
+}
+
+input[type="datetime-local"] {
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+input[type="datetime-local"]:focus {
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+input[type="date"] {
+    background-color: #212732;
+    color: #e4e4e4;
+}
+
+input[type="date"]:focus {
+    background-color: #37474f;
+    color: #e4e4e4;
+}
+
+input[type="date"]:disabled {
+    background-color: #37474f;
+    color: #e4e4e4;
+}
+
+select:disabled {
+    background-color: #37474f !important;
+    color: #e4e4e4 !important;
+}
