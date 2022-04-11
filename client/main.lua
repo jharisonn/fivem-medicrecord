@@ -234,7 +234,7 @@ function ToggleUI(isUIShown)
     SetNuiFocus(isUIShown, isUIShown)
     SendNUIMessage({
         type = "showMedicalInformationSystem",
-        job = "doctor",
+        job = job,
         isUIShown = isUIShown
     })
 end
