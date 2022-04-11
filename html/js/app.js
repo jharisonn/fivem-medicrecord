@@ -311,9 +311,22 @@ function clearPatientDetailForm() {
     $('#patientDetailMedicalRecordComplaint').val('');
     $('#patientDetailMedicalRecordDiagnosis').val('');
     $('#patientDetailMedicalRecordDoctor').val('');
+    $('#patientDetailMedicalRecordTitle').prop('disabled', true);
+    $('#patientDetailMedicalRecordComplaint').prop('disabled', true);
+    $('#patientDetailMedicalRecordDiagnosis').prop('disabled', true);
+    $('#editPatientDetailMedicalRecordForm').css('display', 'block');
+    $('#submitPatientDetailMedicalRecordForm').css('display', 'none');
+    $('#patientDetailRecordFormError').css('display', 'none');
+}
+
+function submitEditPatientMedicalRecordData(data) {
+    showLoading();
+    $('#confirmationModal').modal('hide');
+    $.post('http://vc-medicrecord/submitEditPatientMedicalRecordData', JSON.stringify(data));
 }
 
 function showMedicalRecordsDataById(medicalRecordsId) {
+    console.log('lahahahahah');
     const patientDetail = patientDetailMedicalRecordByIdList.find((medicalRecord) => medicalRecord.medicalRecordsId === medicalRecordsId);
     clearPatientDetailForm();
 
@@ -321,7 +334,42 @@ function showMedicalRecordsDataById(medicalRecordsId) {
     $('#patientDetailMedicalRecordComplaint').val(patientDetail.complaint);
     $('#patientDetailMedicalRecordDiagnosis').val(patientDetail.diagnosis);
     $('#patientDetailMedicalRecordDoctor').val(patientDetail.doctorName);
+    $('#editPatientDetailMedicalRecordForm').unbind();
+    $('#editPatientDetailMedicalRecordForm').click(() => {
+        $('#patientDetailMedicalRecordTitle').prop('disabled', false);
+        $('#patientDetailMedicalRecordComplaint').prop('disabled', false);
+        $('#patientDetailMedicalRecordDiagnosis').prop('disabled', false);
 
+        $('#submitPatientDetailMedicalRecordForm').unbind();
+        $('#submitPatientDetailMedicalRecordForm').click(() => {
+            const title = $('#patientDetailMedicalRecordTitle').val();
+            const complaint = $('#patientDetailMedicalRecordComplaint').val();
+            const diagnosis = $('#patientDetailMedicalRecordDiagnosis').val();
+
+            if (title === '' || title.length > 80 || complaint === '' || complaint.length > 5000 || diagnosis === '' || diagnosis.length > 5000) {
+                $('#patientDetailRecordFormError').css('display', 'block');
+                return;
+            }
+
+            const data = {
+                medicalRecordsId,
+                title,
+                complaint,
+                diagnosis
+            }
+
+            $('#modalBody').html("Are you sure want to edit medical record?");
+
+            $('#confirmationButtonSave').unbind();
+            $('#confirmationButtonSave').click(() => submitEditPatientMedicalRecordData(data));
+
+            $('#confirmationModal').modal();
+        });
+        
+        $('#editPatientDetailMedicalRecordForm').css('display', 'none');
+        $('#submitPatientDetailMedicalRecordForm').css('display', 'block');
+    });
+    
     $('#patientDataProfileTable').css('display', 'none');
     $('#patientDetailMedicalRecordForm').css('display', 'block');
 }
@@ -430,6 +478,19 @@ function clearHomeDetailMedicalRecordsByIdForm() {
     $('#homeDetailMedicalRecordComplaint').val('');
     $('#homeDetailMedicalRecordDiagnosis').val('');
     $('#homeDetailMedicalRecordDoctor').val('');
+    $('#homeDetailMedicalRecordTitle').prop('disabled', true);
+    $('#homeDetailMedicalRecordComplaint').prop('disabled', true);
+    $('#homeDetailMedicalRecordDiagnosis').prop('disabled', true);
+    $('#editHomeDetailMedicalRecordForm').css('display', 'block');
+    $('#submitHomeDetailMedicalRecordForm').css('display', 'none');
+    $('#homeDetailRecordFormError').css('display', 'none');
+}
+
+function submitEditHomeDetailRecordsById(data) {
+    $('#confirmationModal').modal('hide');
+    showLoading();
+
+    $.post('http://vc-medicrecord/submitEditHomeDetailRecordsById', JSON.stringify(data));
 }
 
 function showDetailMedicalRecordsByIdForm(medicalRecordsId) {
@@ -441,6 +502,41 @@ function showDetailMedicalRecordsByIdForm(medicalRecordsId) {
     $('#homeDetailMedicalRecordComplaint').val(detailMedicalRecordsById.complaint);
     $('#homeDetailMedicalRecordDiagnosis').val(detailMedicalRecordsById.diagnosis);
     $('#homeDetailMedicalRecordDoctor').val(detailMedicalRecordsById.doctorName);
+    $('#editHomeDetailMedicalRecordForm').unbind();
+    $('#editHomeDetailMedicalRecordForm').click(() => {
+        $('#homeDetailMedicalRecordTitle').prop('disabled', false);
+        $('#homeDetailMedicalRecordComplaint').prop('disabled', false);
+        $('#homeDetailMedicalRecordDiagnosis').prop('disabled', false);
+
+        $('#submitHomeDetailMedicalRecordForm').unbind();
+        $('#submitHomeDetailMedicalRecordForm').click(() => {
+            const title = $('#homeDetailMedicalRecordTitle').val();
+            const complaint = $('#homeDetailMedicalRecordComplaint').val();
+            const diagnosis = $('#homeDetailMedicalRecordDiagnosis').val();
+
+            if (title === '' || title.length > 80 || complaint === '' || complaint.length > 5000 || diagnosis === '' || diagnosis.length > 5000) {
+                $('#homeDetailRecordFormError').css('display', 'block');
+                return;
+            }
+
+            const data = {
+                medicalRecordsId,
+                title,
+                complaint,
+                diagnosis
+            }
+
+            $('#modalBody').html("Are you sure want to edit medical record?");
+
+            $('#confirmationButtonSave').unbind();
+            $('#confirmationButtonSave').click(() => submitEditHomeDetailRecordsById(data));
+
+            $('#confirmationModal').modal();
+        });
+        
+        $('#editHomeDetailMedicalRecordForm').css('display', 'none');
+        $('#submitHomeDetailMedicalRecordForm').css('display', 'block');
+    });
 
     $('#homeDetailMedicalRecordForm').css('display', 'block');
 }
@@ -613,6 +709,18 @@ document.onreadystatechange = () => {
                 $('#createSchedule').css('display', 'none');
                 $('#successSubmitNonDoctorSection').css('display', 'block');
                 showContainer(createScheduleContainer);
+            }
+            else if (item.type === "submitEditHomeDetailRecordsByIdResponse") {
+                resetContainer();
+                resetHomePage();
+                showLoading();
+                $.post('http://vc-medicrecord/fetchRecentMedicalRecordsData', JSON.stringify({}));
+            }
+            else if (item.type === "submitEditPatientMedicalRecordDataResponse") {
+                clearSearchPage();
+                $('#searchPatientsQuery').val('');
+                hideLoading();
+                showContainer(searchPatientsContainer);
             }
         });
     }
@@ -854,7 +962,7 @@ $(document).ready(function () {
     });
     $('#confirmationButtonCancel').click(() => {
         $('#confirmationModal').modal('hide');
-    })
+    });
 });
 
 document.onkeyup = function(data) {

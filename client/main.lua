@@ -10,6 +10,28 @@ RegisterNUICallback("close", function()
     ToggleUI(false)
 end)
 
+RegisterNetEvent("vc-medicalrecord:submitEditPatientMedicalRecordDataResponse")
+AddEventHandler("vc-medicalrecord:submitEditPatientMedicalRecordDataResponse", function(data) 
+    SendNUIMessage({
+        type = "submitEditPatientMedicalRecordDataResponse"
+    })
+end)
+
+RegisterNUICallback("submitEditPatientMedicalRecordData", function (data) 
+    TriggerServerEvent("vc-medicalrecord:submitEditPatientMedicalRecordData", data)
+end)
+
+RegisterNUICallback("submitEditHomeDetailRecordsById", function(data)
+    TriggerServerEvent("vc-medicalrecord:submitEditHomeDetailRecordsById", data)
+end)
+
+RegisterNetEvent('vc-medicalrecord:submitEditHomeDetailRecordsByIdResponse')
+AddEventHandler('vc-medicalrecord:submitEditHomeDetailRecordsByIdResponse', function (data) 
+    SendNUIMessage({
+        type = 'submitEditHomeDetailRecordsByIdResponse'
+    })
+end)
+
 RegisterNetEvent('vc-medicalrecord:submitNonDoctorScheduleResponse')
 AddEventHandler('vc-medicalrecord:submitNonDoctorScheduleResponse', function (response)
     SendNUIMessage({
@@ -212,7 +234,7 @@ function ToggleUI(isUIShown)
     SetNuiFocus(isUIShown, isUIShown)
     SendNUIMessage({
         type = "showMedicalInformationSystem",
-        job = job,
+        job = "doctor",
         isUIShown = isUIShown
     })
 end

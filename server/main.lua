@@ -16,6 +16,48 @@ function dump(o)
     end
 end
 
+RegisterServerEvent('vc-medicalrecord:submitEditPatientMedicalRecordData')
+AddEventHandler('vc-medicalrecord:submitEditPatientMedicalRecordData', function (data) 
+    if string.len(data.title) > 80 or string.len(data.complaint) > 5000 or string.len(data.diagnosis) > 5000 then
+        return
+    end
+
+    local src = source
+    local user = exports['vc-base']:getModule('Player'):GetUser(src)
+    local char = user:getCurrentCharacter()
+    local success = false
+    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ?, id_doctor = ? WHERE id = ?"
+
+    db:execute(query, { data.title, data.complaint, data.diagnosis, char.id, data.medicalRecordsId }, function (result) 
+        if result ~= nil then
+            success = true
+        end
+
+        TriggerClientEvent('vc-medicalrecord:submitEditHomeDetailRecordsByIdResponse', src, success)
+    end)
+end)
+
+RegisterServerEvent('vc-medicalrecord:submitEditHomeDetailRecordsById')
+AddEventHandler('vc-medicalrecord:submitEditHomeDetailRecordsById', function (data) 
+    if string.len(data.title) > 80 or string.len(data.complaint) > 5000 or string.len(data.diagnosis) > 5000 then
+        return
+    end
+
+    local src = source
+    local user = exports['vc-base']:getModule('Player'):GetUser(src)
+    local char = user:getCurrentCharacter()
+    local success = false
+    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ?, id_doctor = ? WHERE id = ?"
+
+    db:execute(query, { data.title, data.complaint, data.diagnosis, char.id, data.medicalRecordsId }, function (result) 
+        if result ~= nil then
+            success = true
+        end
+
+        TriggerClientEvent('vc-medicalrecord:submitEditHomeDetailRecordsByIdResponse', src, success)
+    end)
+end)
+
 RegisterServerEvent('vc-medicalrecord:submitNonDoctorSchedule')
 AddEventHandler('vc-medicalrecord:submitNonDoctorSchedule', function (data)
     if string.len(data.complaint) > 5000 then
