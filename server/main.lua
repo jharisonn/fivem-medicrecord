@@ -23,12 +23,10 @@ AddEventHandler('vc-medicalrecord:submitEditPatientMedicalRecordData', function 
     end
 
     local src = source
-    local user = exports['vc-base']:getModule('Player'):GetUser(src)
-    local char = user:getCurrentCharacter()
     local success = false
-    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ?, id_doctor = ? WHERE id = ?"
+    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ? WHERE id = ?"
 
-    db:execute(query, { data.title, data.complaint, data.diagnosis, char.id, data.medicalRecordsId }, function (result) 
+    db:execute(query, { data.title, data.complaint, data.diagnosis, data.medicalRecordsId }, function (result) 
         if result ~= nil then
             success = true
         end
@@ -44,12 +42,10 @@ AddEventHandler('vc-medicalrecord:submitEditHomeDetailRecordsById', function (da
     end
 
     local src = source
-    local user = exports['vc-base']:getModule('Player'):GetUser(src)
-    local char = user:getCurrentCharacter()
     local success = false
-    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ?, id_doctor = ? WHERE id = ?"
+    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ? WHERE id = ?"
 
-    db:execute(query, { data.title, data.complaint, data.diagnosis, char.id, data.medicalRecordsId }, function (result) 
+    db:execute(query, { data.title, data.complaint, data.diagnosis, data.medicalRecordsId }, function (result) 
         if result ~= nil then
             success = true
         end
