@@ -3,6 +3,8 @@ let homeDetailMedicalRecordByIdList;
 let patientsSearchData;
 let userJob;
 let patientDetailMedicalRecordByIdList;
+let medicalRecordsTableData;
+let medicalRecordsDetailTable;
 const containersId = [ 
     {containerId: '#homeContainer', navId: '#homeNav'}, 
     {containerId: '#searchPatientsContainer', navId: '#searchPatientNav'},
@@ -164,14 +166,135 @@ function confirmDeleteMedicalRecordsData(medicalRecordsId) {
     $('#confirmationModal').modal();
 }
 
-function showMedicalRecordsResponse(medicalRecords) {
-    const table = $('#medicalRecordsTable');
+function clearMedicalRecordsPageDetail() {
+    $('#medicalRecordsFullname').html('');
+    $('#medicalRecordsGender').html('');
+    $('#medicalRecordsDOB').html('');
+    $('#medicalRecordsPhoneNumber').html('');
+    $('#medicalRecordsCID').html('');
+
+    $('#medicalRecordsTableParent').css('display', 'none');
+    $('#medicalRecordFormCards').css('display', 'none');
+    $('#medicalRecordsContainerDetail').css('display', 'none');
+
+    $('#medicalRecordsDetailContainerTitle').prop('disabled', true);
+    $('#medicalRecordsDetailContainerComplaint').prop('disabled', true);
+    $('#medicalRecordsDetailContainerDiagnosis').prop('disabled', true);
+
+    $('#editMedicalRecordsDetailContainerForm').css('display', 'block');
+    $('#submitMedicalRecordsDetailContainerForm').css('display', 'none');
+}
+
+function submitEditMedicalRecordsById(data) {
+    showLoading();
+    $('#confirmationModal').modal('hide');
+    console.log(JSON.stringify(data));
+    $.post('http://vc-medicrecord/submitEditMedicalRecordsById', JSON.stringify(data));
+}
+
+function showMedicalRecordsPageDetailForm(medicalRecordsId) {
+    const medicalRecordDetail = medicalRecordsDetailTable.find((medicalRecord) => medicalRecord.id === medicalRecordsId);
+
+    $('#medicalRecordsDetailContainerTitle').val(medicalRecordDetail.title);
+    $('#medicalRecordsDetailContainerComplaint').val(medicalRecordDetail.complaint);
+    $('#medicalRecordsDetailContainerDiagnosis').val(medicalRecordDetail.diagnosis);
+    $('#medicalRecordsDetailContainerDoctor').val(medicalRecordDetail.doctorName);
+
+    $('#medicalRecordsDetailContainerFormError').css('display', 'none');
+    $('#medicalRecordsDetailTableParent').css('display', 'none');
+    $('#medicalRecordsDetailContainerForm').css('display', 'block');
+
+    $('#editMedicalRecordsDetailContainerForm').unbind();
+    $('#editMedicalRecordsDetailContainerForm').click(() => {
+        $('#medicalRecordsDetailContainerFormError').css('display', 'none');
+        $('#editMedicalRecordsDetailContainerForm').css('display', 'none');
+        $('#submitMedicalRecordsDetailContainerForm').css('display', 'block');
+
+        $('#medicalRecordsDetailContainerTitle').prop('disabled', false);
+        $('#medicalRecordsDetailContainerComplaint').prop('disabled', false);
+        $('#medicalRecordsDetailContainerDiagnosis').prop('disabled', false);
+    });
+
+    $('#submitMedicalRecordsDetailContainerForm').unbind();
+    $('#submitMedicalRecordsDetailContainerForm').click(() => {
+        const title = $('#medicalRecordsDetailContainerTitle').val();
+        const complaint = $('#medicalRecordsDetailContainerComplaint').val();
+        const diagnosis = $('#medicalRecordsDetailContainerDiagnosis').val();
+
+        if (title === "" || title.length > 80 || complaint === "" || complaint.length > 5000 || diagnosis === "" || diagnosis.length > 5000) {
+            $('#medicalRecordsDetailContainerFormError').css('display', 'block');
+            return;
+        }
+
+        const data = {
+            medicalRecordsId,
+            title,
+            complaint,
+            diagnosis
+        }
+
+        $('#modalBody').html("Are you sure want to edit medical record?");
+
+        $('#confirmationButtonSave').unbind();
+        $('#confirmationButtonSave').click(() => submitEditMedicalRecordsById(data));
+
+        $('#confirmationModal').modal();
+
+        $('#medicalRecordsDetailContainerFormError').css('display', 'none');
+    });
+}
+
+function showMedicalRecordsPageDetailTable(medicalRecords) {
+    const table = $('#medicalRecordsDetailTable');
     table.empty();
+    medicalRecordsDetailTable = medicalRecords;
 
     let row = '';
     for(var i=0; i<medicalRecords.length; i++) {
         row += 
-        '<tr>' +
+        '<tr class="medicalrecord-data" onclick=showMedicalRecordsPageDetailForm(' + medicalRecords[i].id + ')>' +
+        '<th scope="row">' +
+        (i+1) +
+        '</th>' +
+        '<td>' +
+        medicalRecords[i].title +
+        '</td>' +
+        '<td>' +
+        medicalRecords[i].doctorName +
+        '</td>' +
+        '</tr>';
+    }
+
+    table.append(row);
+    $('#medicalRecordsContainerDetail').css('display', 'block');
+    $('#medicalRecordsDetailTableParent').css('display', 'block');
+    $('#medicalRecordsDetailContainerForm').css('display', 'none');
+}
+
+function showMedicalRecordsPageDetail(cid) {
+    clearMedicalRecordsPageDetail();
+    showLoading();
+    const patientData = medicalRecordsTableData.find((medicalRecord) => medicalRecord.cid === cid);
+
+    $('#medicalRecordsDetailImage').attr('src', (patientData.gender === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
+    $('#medicalRecordsFullname').html(patientData.fullname);
+    $('#medicalRecordsGender').html((patientData.gender === 0) ? "Male" : "Female");
+    $('#medicalRecordsDOB').html(patientData.dob);
+    $('#medicalRecordsPhoneNumber').html(patientData.phonenumber);
+    $('#medicalRecordsCID').html(patientData.cid);
+
+    $.post('http://vc-medicrecord/getMedicalRecordsPageDetail', JSON.stringify({ cid }))
+}
+
+function showMedicalRecordsResponse(medicalRecords) {
+    const table = $('#medicalRecordsTable');
+    table.empty();
+    medicalRecordsTableData = medicalRecords;
+
+    let row = '';
+    for(var i=0; i<medicalRecords.length; i++) {
+        row += 
+        '<tr class="medicalrecord-data" onclick=showMedicalRecordsPageDetail(' + medicalRecords[i].cid + ')>' +
         '<th scope="row">' +
         (i+1) +
         '</th>' +
@@ -209,6 +332,8 @@ function clearMedicalRecordsPage() {
     $('#medicalRecordDiagnosis').val('');
     $('#medicalRecordFormError').css('display', 'none');
     $('#medicalRecordFormCIDError').css('display', 'none');
+    $('#medicalRecordsContainerDetail').css('display', 'none');
+    $('#medicalRecordsDetailContainerForm').css('display', 'none');
 }
 
 function fetchMedicalRecordsData() {
@@ -326,7 +451,6 @@ function submitEditPatientMedicalRecordData(data) {
 }
 
 function showMedicalRecordsDataById(medicalRecordsId) {
-    console.log('lahahahahah');
     const patientDetail = patientDetailMedicalRecordByIdList.find((medicalRecord) => medicalRecord.medicalRecordsId === medicalRecordsId);
     clearPatientDetailForm();
 
@@ -722,6 +846,15 @@ document.onreadystatechange = () => {
                 hideLoading();
                 showContainer(searchPatientsContainer);
             }
+            else if (item.type === "getMedicalRecordsPageDetailResponse") {
+                showMedicalRecordsPageDetailTable(item.medicalRecords)
+                hideLoading();
+            }
+            else if (item.type === "submitEditMedicalRecordsByIdResponse") {
+                clearMedicalRecordsPage();
+                fetchMedicalRecordsData();
+                showContainer(medicalRecordsContainer);
+            }
         });
     }
 };
@@ -833,6 +966,30 @@ $(document).ready(function () {
         recentMedicalRecordsData = {};
         patientsSearchData = {};
         $.post('http://vc-medicrecord/close', JSON.stringify({}));
+    });
+    $('#searchMedicalRecordsQuery').keyup((event) => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+
+            const query = $('#searchMedicalRecordsQuery').val();
+            if (query === '') {
+                return;
+            }
+
+            $('#searchMedicalRecordsButton').click();
+        }
+    });
+    $('#searchPatientsQuery').keyup((event) => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+
+            const query = $('#searchPatientsQuery').val();
+            if (query === '') {
+                return;
+            }
+
+            $('#searchPatientsButton').click();
+        }
     });
     $('#searchPatientsButton').click(() => {
         const query = $('#searchPatientsQuery').val();

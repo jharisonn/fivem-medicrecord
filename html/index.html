@@ -84,21 +84,21 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="homeDetailMedicalRecordTitle">Title</label>
-                        <input type="text" class="form-control" id="homeDetailMedicalRecordTitle" placeholder="Title" disabled>
+                        <input type="text" class="form-control" id="homeDetailMedicalRecordTitle" placeholder="Title" maxlength="80" disabled>
                       </div>
                       <div class="form-group">
                         <label for="homeDetailMedicalRecordComplaint">Complaint</label>
-                        <textarea class="form-control" id="homeDetailMedicalRecordComplaint" placeholder="Sakit Kepala" rows="3" disabled></textarea>
+                        <textarea class="form-control" id="homeDetailMedicalRecordComplaint" placeholder="Sakit Kepala" rows="3" maxlength="5000" disabled></textarea>
                       </div>
                       <div class="form-group">
                         <label for="homeDetailMedicalRecordDiagnosis">Diagnosis</label>
-                        <textarea class="form-control" id="homeDetailMedicalRecordDiagnosis" placeholder="Migrain" rows="3" disabled></textarea>
+                        <textarea class="form-control" id="homeDetailMedicalRecordDiagnosis" placeholder="Migrain" rows="3" maxlength="5000" disabled></textarea>
                       </div>
                       <div class="form-group">
                         <label for="homeDetailMedicalRecordDoctor">Doctor</label>
                         <input type="text" class="form-control" id="homeDetailMedicalRecordDoctor" placeholder="Title" disabled>
                       </div>
-                      <button id="submitHomeDetailMedicalRecordForm" type="button" class="btn btn-vector-success display-none">Save</button>
+                      <button id="submitHomeDetailMedicalRecordForm" type="button" class="btn btn-vector-success" style="display: none !important">Save</button>
                       <button id="editHomeDetailMedicalRecordForm" type="button" class="btn btn-vector-success">Edit</button>
                       <p id="homeDetailRecordFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
                     </div>
@@ -155,15 +155,15 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="patientDetailMedicalRecordTitle">Title</label>
-                        <input type="text" class="form-control" id="patientDetailMedicalRecordTitle" disabled>
+                        <input type="text" class="form-control" id="patientDetailMedicalRecordTitle" maxlength="80" disabled>
                       </div>
                       <div class="form-group">
                         <label for="patientDetailMedicalRecordComplaint">Complaint</label>
-                        <textarea class="form-control" id="patientDetailMedicalRecordComplaint" rows="3" disabled></textarea>
+                        <textarea class="form-control" id="patientDetailMedicalRecordComplaint" rows="3" maxlength="5000" disabled></textarea>
                       </div>
                       <div class="form-group">
                         <label for="patientDetailMedicalRecordDiagnosis">Diagnosis</label>
-                        <textarea class="form-control" id="patientDetailMedicalRecordDiagnosis" rows="3" disabled></textarea>
+                        <textarea class="form-control" id="patientDetailMedicalRecordDiagnosis" rows="3" maxlength="5000" disabled></textarea>
                       </div>
                       <div class="form-group">
                         <label for="patientDetailMedicalRecordDoctor">Doctor</label>
@@ -339,6 +339,67 @@
               </thead>
               <tbody id="medicalRecordsTable"></tbody>
             </table>
+          </div>
+          <div id="medicalRecordsContainerDetail" class="display-none mis-card-overflow">
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #212732 !important">
+                  <div class="card-body" style="background-color: #212732 !important">
+                    <div class="d-flex flex-column align-items-center text-center" style="background-color: #212732;">
+                      <img id="medicalRecordsDetailImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4 id="medicalRecordsFullname"></h4>
+                          <div class="profiles">
+                            <div class="profile">Gender<span id="medicalRecordsGender"></span></div>
+                            <div class="profile">DOB<span id="medicalRecordsDOB"></span></div>
+                            <div class="profile">Phone Number<span id="medicalRecordsPhoneNumber"></span></div>
+                            <div class="profile">CID<span id="medicalRecordsCID"></span></div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8" id="medicalRecordsDetailTableParent">
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Doctor Name</th>
+                    </tr>
+                  </thead>
+                  <tbody id="medicalRecordsDetailTable"></tbody>
+                </table>
+              </div>
+              <div class="col-md-8" id="medicalRecordsDetailContainerForm">
+                <div id="homeDetailMedicalRecordById" class="mis-card-overflow">
+                  <div class="card mb-3" style="background-color: #212732;">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="medicalRecordsDetailContainerTitle">Title</label>
+                        <input type="text" class="form-control" id="medicalRecordsDetailContainerTitle" placeholder="Title" maxlength="80" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="medicalRecordsDetailContainerComplaint">Complaint</label>
+                        <textarea class="form-control" id="medicalRecordsDetailContainerComplaint" placeholder="Sakit Kepala" rows="3" maxlength="5000" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="medicalRecordsDetailContainerDiagnosis">Diagnosis</label>
+                        <textarea class="form-control" id="medicalRecordsDetailContainerDiagnosis" placeholder="Migrain" rows="3" maxlength="5000" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="medicalRecordsDetailContainerDoctor">Doctor</label>
+                        <input type="text" class="form-control" id="medicalRecordsDetailContainerDoctor" placeholder="Title" disabled>
+                      </div>
+                      <button id="submitMedicalRecordsDetailContainerForm" type="button" class="btn btn-vector-success" style="display: none !important;">Save</button>
+                      <button id="editMedicalRecordsDetailContainerForm" type="button" class="btn btn-vector-success">Edit</button>
+                      <p id="medicalRecordsDetailContainerFormError" style="color: red; margin-top: 8px; display: none;">Fill up the required data!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>    
           </div>
           <div id="medicalRecordFormCards" class="display-none mis-card-overflow">
             <div class="card mb-3" style="background-color: #212732;">

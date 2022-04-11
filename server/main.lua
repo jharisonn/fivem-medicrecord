@@ -16,6 +16,37 @@ function dump(o)
     end
 end
 
+RegisterServerEvent('vc-medicalrecord:submitEditMedicalRecordsById')
+AddEventHandler('vc-medicalrecord:submitEditMedicalRecordsById', function (data) 
+    if string.len(data.title) > 80 or string.len(data.complaint) > 5000 or string.len(data.diagnosis) > 5000 then
+        return
+    end
+
+    local src = source
+    local success = false
+    local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ? WHERE id = ?"
+    recentMedicalRecordsData = {}
+
+    db:execute(query, { data.title, data.complaint, data.diagnosis, data.medicalRecordsId }, function (result) 
+        if result ~= nil then
+            success = true
+        end
+
+        TriggerClientEvent('vc-medicalrecord:submitEditMedicalRecordsByIdResponse', src, success)
+    end)
+end)
+
+RegisterServerEvent('vc-medicalrecord:getMedicalRecordsPageDetail')
+AddEventHandler('vc-medicalrecord:getMedicalRecordsPageDetail', function (data) 
+    local src = source
+    local success = false
+    local query = "SELECT medicalrecords.id as id, title, complaint, diagnosis, CONCAT(characters.first_name, ' ', characters.last_name) AS doctorName FROM medicalrecords JOIN characters ON medicalrecords.id_doctor = characters.id WHERE medicalrecords.cid = ? ORDER BY createdAt DESC LIMIT 50"
+
+    db:execute(query, { data.cid }, function (result)
+        TriggerClientEvent('vc-medicalrecord:getMedicalRecordsPageDetailResponse', src, result)
+    end)
+end)
+
 RegisterServerEvent('vc-medicalrecord:submitEditPatientMedicalRecordData')
 AddEventHandler('vc-medicalrecord:submitEditPatientMedicalRecordData', function (data) 
     if string.len(data.title) > 80 or string.len(data.complaint) > 5000 or string.len(data.diagnosis) > 5000 then
@@ -25,6 +56,7 @@ AddEventHandler('vc-medicalrecord:submitEditPatientMedicalRecordData', function 
     local src = source
     local success = false
     local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ? WHERE id = ?"
+    recentMedicalRecordsData = {}
 
     db:execute(query, { data.title, data.complaint, data.diagnosis, data.medicalRecordsId }, function (result) 
         if result ~= nil then
@@ -44,6 +76,7 @@ AddEventHandler('vc-medicalrecord:submitEditHomeDetailRecordsById', function (da
     local src = source
     local success = false
     local query = "UPDATE medicalrecords SET title = ?, complaint = ?, diagnosis = ? WHERE id = ?"
+    recentMedicalRecordsData = {}
 
     db:execute(query, { data.title, data.complaint, data.diagnosis, data.medicalRecordsId }, function (result) 
         if result ~= nil then
@@ -149,7 +182,7 @@ end)
 RegisterServerEvent('vc-medicalrecord:fetchMedicalRecordsByQuery')
 AddEventHandler('vc-medicalrecord:fetchMedicalRecordsByQuery', function (data)
     local src = source
-    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id WHERE characters.id = ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? LIMIT 50"
+    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, gender, dob, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id WHERE characters.id = ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? LIMIT 50"
     local cid = tonumber(data.query) or ''
 
     db:execute(query, { cid, data.query .. '%', '%' .. data.query .. '%', '%' .. data.query }, function (result)
@@ -160,7 +193,7 @@ end)
 RegisterServerEvent('vc-medicalrecord:fetchMedicalRecordsData')
 AddEventHandler('vc-medicalrecord:fetchMedicalRecordsData', function ()
     local src = source
-    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id ORDER BY medicalrecords.createdAt DESC LIMIT 50"
+    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, gender, dob, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id ORDER BY medicalrecords.createdAt DESC LIMIT 50"
 
     db:execute(query, nil, function (result)
         TriggerClientEvent('vc-medicalrecord:medicalRecordsResponse', src, result)
