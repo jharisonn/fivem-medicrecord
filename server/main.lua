@@ -182,10 +182,10 @@ end)
 RegisterServerEvent('vc-medicalrecord:fetchMedicalRecordsByQuery')
 AddEventHandler('vc-medicalrecord:fetchMedicalRecordsByQuery', function (data)
     local src = source
-    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, gender, dob, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id WHERE characters.id = ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? OR CONCAT(LOWER(first_name), ' ', LOWER(last_name)) LIKE ? LIMIT 50"
+    local query = "SELECT CONCAT(patient.first_name, ' ', patient.last_name) as fullname, patient.phone_number as phonenumber, patient.gender, patient.dob, title, diagnosis, patient.id as cid, CONCAT(doctor.first_name, ' ', doctor.last_name) as doctorName, medicalrecords.id as id FROM medicalrecords JOIN characters AS patient ON medicalrecords.cid = patient.id JOIN characters AS doctor ON medicalrecords.id_doctor = doctor.id WHERE patient.id = ? OR title LIKE ? OR title LIKE ? OR title LIKE ? OR CONCAT(LOWER(patient.first_name), ' ', LOWER(patient.last_name)) LIKE ? OR CONCAT(LOWER(patient.first_name), ' ', LOWER(patient.last_name)) LIKE ? OR CONCAT(LOWER(patient.first_name), ' ', LOWER(patient.last_name)) LIKE ? OR CONCAT(LOWER(doctor.first_name), ' ', LOWER(doctor.last_name)) LIKE ? OR CONCAT(LOWER(doctor.first_name), ' ', LOWER(doctor.last_name)) LIKE ? OR CONCAT(LOWER(doctor.first_name), ' ', LOWER(doctor.last_name)) LIKE ? LIMIT 50;"
     local cid = tonumber(data.query) or ''
 
-    db:execute(query, { cid, data.query .. '%', '%' .. data.query .. '%', '%' .. data.query }, function (result)
+    db:execute(query, { cid, data.query .. '%', '%' .. data.query .. '%', '%' .. data.query, data.query .. '%', '%' .. data.query .. '%', '%' .. data.query, data.query .. '%', '%' .. data.query .. '%', '%' .. data.query }, function (result)
         TriggerClientEvent('vc-medicalrecord:medicalRecordsResponse', src, result)
     end)
 end)
@@ -193,7 +193,7 @@ end)
 RegisterServerEvent('vc-medicalrecord:fetchMedicalRecordsData')
 AddEventHandler('vc-medicalrecord:fetchMedicalRecordsData', function ()
     local src = source
-    local query = "SELECT CONCAT(first_name, ' ', last_name) as fullname, phone_number as phonenumber, gender, dob, title, diagnosis, characters.id as cid, medicalrecords.id as id FROM medicalrecords JOIN characters ON medicalrecords.cid = characters.id ORDER BY medicalrecords.createdAt DESC LIMIT 50"
+    local query = "SELECT CONCAT(patient.first_name, ' ', patient.last_name) as fullname, patient.phone_number as phonenumber, patient.gender, patient.dob, title, diagnosis, patient.id as cid, CONCAT(doctor.first_name, ' ', doctor.last_name) as doctorName, medicalrecords.id as id FROM medicalrecords JOIN characters AS patient ON medicalrecords.cid = patient.id JOIN characters AS doctor ON medicalrecords.id_doctor = doctor.id ORDER BY medicalrecords.createdAt DESC LIMIT 50"
 
     db:execute(query, nil, function (result)
         TriggerClientEvent('vc-medicalrecord:medicalRecordsResponse', src, result)

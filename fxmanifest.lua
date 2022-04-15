@@ -23,6 +23,11 @@ files {
 	'html/css/bootstrap.css',
 	'html/css/font-awesome.css',
 
+	'html/js/home.js',
+	'html/js/patient.js',
+	'html/js/schedule.js',
+	'html/js/medicalrecords.js',
+	'html/js/main.js',
 	'html/js/app.js',
 	'html/js/bootstrap.js',
 	'html/js/popper.js'
