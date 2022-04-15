@@ -74,10 +74,10 @@ function showSchedulesData(schedules) {
         schedules[i].phonenumber +
         '</td>' +
         '<td>' +
-        convertUNIXtoString(schedules[i].datetime) +
+        convertUNIXtoString(schedules[i].datetime.replace(/</g, "&lt;")) +
         '</td>' +
         '<td>' +
-        schedules[i].complaint +
+        schedules[i].complaint.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
         '<button onclick="confirmDeleteScheduleData('+ schedules[i].scheduleId +')" class="btn btn-vector-warning" type="button">DELETE</a>' +
@@ -91,7 +91,7 @@ function showSchedulesData(schedules) {
 
 function submitNonDoctorSchedule() {
     const dateTime = new Date($('#scheduleNonDoctorDateTime').val()).valueOf() / 1000;
-    const complaint = $('#scheduleNonDoctorComplaint').val();
+    const complaint = $('#scheduleNonDoctorComplaint').val().replace(/</g, "&lt;");
 
     const data = {
         dateTime,
@@ -109,7 +109,7 @@ function submitSchedule() {
     const data = {
         cid: $('#scheduleCID').val(),
         datetime,
-        complaint: $('#scheduleComplaint').val()
+        complaint: $('#scheduleComplaint').val().replace(/</g, "&lt;")
     };
 
     $.post('http://vc-medicrecord/postNewSchedule', JSON.stringify(data));
@@ -142,7 +142,7 @@ $('#createSchedule').click(() => {
 
 $('#submitNonDoctorSchedule').click(() => {
     const dateTime = new Date($('#scheduleNonDoctorDateTime').val()).valueOf() / 1000;
-    const complaint = $('#scheduleNonDoctorComplaint').val();
+    const complaint = $('#scheduleNonDoctorComplaint').val().replace(/</g, "&lt;");
 
     if (dateTime === '' || complaint === '' || complaint.length > 5000) {
         $('#scheduleNonDoctorFormError').css('display', 'block');

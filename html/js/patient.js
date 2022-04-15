@@ -36,9 +36,9 @@ function clearPatientDetailForm() {
 }
 
 const submitMedicalRecord = (id) => () => {
-    const title = $('#title').val();
-    const complaint = $('#complaint').val();
-    const diagnosis = $('#diagnosis').val();
+    const title = $('#title').val().replace(/</g, "&lt;");
+    const complaint = $('#complaint').val().replace(/</g, "&lt;");
+    const diagnosis = $('#diagnosis').val().replace(/</g, "&lt;");
 
     const data = {
         cid: id,
@@ -68,9 +68,9 @@ function createMedicalRecordCardsHandler(id) {
 
     $('#submitFormCards').unbind();
     $('#submitFormCards').click(() => {
-        const title = $('#title').val();
-        const complaint = $('#complaint').val();
-        const diagnosis = $('#diagnosis').val();
+        const title = $('#title').val().replace(/</g, "&lt;");
+        const complaint = $('#complaint').val().replace(/</g, "&lt;");
+        const diagnosis = $('#diagnosis').val().replace(/</g, "&lt;");
 
         if (title === "" || 
             complaint === "" ||
@@ -97,10 +97,10 @@ function viewMedicalRecordCardsHandler(id) {
     const patientData = patientsSearchData.find((data) => data.id === id);
 
     $('#detailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
-    $('#detailFullname').text(patientData.fullname);
+    $('#detailFullname').text(patientData.fullname.replace(/</g, "&lt;"));
     $('#detailGender').text((parseInt(patientData.gender) === 0) ? 'Male' : 'Female');
-    $('#detailDOB').text(patientData.dob);
-    $('#detailPhoneNumber').text(patientData.phonenumber);
+    $('#detailDOB').text(patientData.dob.replace(/</g, "&lt;"));
+    $('#detailPhoneNumber').text(patientData.phonenumber.replace(/</g, "&lt;"));
     $('#detailCID').text(patientData.id);
 
     $.post('http://vc-medicrecord/getDetailMedicalRecordsData', JSON.stringify({ id }))
@@ -163,10 +163,10 @@ function showMedicalRecordsDataById(medicalRecordsId) {
     const patientDetail = patientDetailMedicalRecordByIdList.find((medicalRecord) => medicalRecord.medicalRecordsId === medicalRecordsId);
     clearPatientDetailForm();
 
-    $('#patientDetailMedicalRecordTitle').val(patientDetail.title);
-    $('#patientDetailMedicalRecordComplaint').val(patientDetail.complaint);
-    $('#patientDetailMedicalRecordDiagnosis').val(patientDetail.diagnosis);
-    $('#patientDetailMedicalRecordDoctor').val(patientDetail.doctorName);
+    $('#patientDetailMedicalRecordTitle').val(patientDetail.title.replace(/</g, "&lt;"));
+    $('#patientDetailMedicalRecordComplaint').val(patientDetail.complaint.replace(/</g, "&lt;"));
+    $('#patientDetailMedicalRecordDiagnosis').val(patientDetail.diagnosis.replace(/</g, "&lt;"));
+    $('#patientDetailMedicalRecordDoctor').val(patientDetail.doctorName.replace(/</g, "&lt;"));
     $('#editPatientDetailMedicalRecordForm').unbind();
     $('#editPatientDetailMedicalRecordForm').click(() => {
         $('#patientDetailMedicalRecordTitle').prop('disabled', false);
@@ -175,9 +175,9 @@ function showMedicalRecordsDataById(medicalRecordsId) {
 
         $('#submitPatientDetailMedicalRecordForm').unbind();
         $('#submitPatientDetailMedicalRecordForm').click(() => {
-            const title = $('#patientDetailMedicalRecordTitle').val();
-            const complaint = $('#patientDetailMedicalRecordComplaint').val();
-            const diagnosis = $('#patientDetailMedicalRecordDiagnosis').val();
+            const title = $('#patientDetailMedicalRecordTitle').val().replace(/</g, "&lt;");
+            const complaint = $('#patientDetailMedicalRecordComplaint').val().replace(/</g, "&lt;");
+            const diagnosis = $('#patientDetailMedicalRecordDiagnosis').val().replace(/</g, "&lt;");
 
             if (title === '' || title.length > 80 || complaint === '' || complaint.length > 5000 || diagnosis === '' || diagnosis.length > 5000) {
                 $('#patientDetailRecordFormError').css('display', 'block');
@@ -220,10 +220,10 @@ function showMedicalRecordsData(medicalRecords) {
         (i+1) +
         '</th>' +
         '<td>' +
-        medicalRecords[i].title +
+        medicalRecords[i].title.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].doctorName +
+        medicalRecords[i].doctorName.replace(/</g, "&lt;") +
         '</td>' +
         '</tr>';
     }

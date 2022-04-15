@@ -32,10 +32,10 @@ function showDetailMedicalRecordsByIdForm(medicalRecordsId) {
     clearHomeDetailMedicalRecordsByIdForm();
     $('#homeDetailTableParent').css('display', 'none');
 
-    $('#homeDetailMedicalRecordTitle').val(detailMedicalRecordsById.title);
-    $('#homeDetailMedicalRecordComplaint').val(detailMedicalRecordsById.complaint);
-    $('#homeDetailMedicalRecordDiagnosis').val(detailMedicalRecordsById.diagnosis);
-    $('#homeDetailMedicalRecordDoctor').val(detailMedicalRecordsById.doctorName);
+    $('#homeDetailMedicalRecordTitle').val(detailMedicalRecordsById.title.replace(/</g, "&lt;"));
+    $('#homeDetailMedicalRecordComplaint').val(detailMedicalRecordsById.complaint.replace(/</g, "&lt;"));
+    $('#homeDetailMedicalRecordDiagnosis').val(detailMedicalRecordsById.diagnosis.replace(/</g, "&lt;"));
+    $('#homeDetailMedicalRecordDoctor').val(detailMedicalRecordsById.doctorName.replace(/</g, "&lt;"));
     $('#editHomeDetailMedicalRecordForm').unbind();
     $('#editHomeDetailMedicalRecordForm').click(() => {
         $('#homeDetailMedicalRecordTitle').prop('disabled', false);
@@ -44,9 +44,9 @@ function showDetailMedicalRecordsByIdForm(medicalRecordsId) {
 
         $('#submitHomeDetailMedicalRecordForm').unbind();
         $('#submitHomeDetailMedicalRecordForm').click(() => {
-            const title = $('#homeDetailMedicalRecordTitle').val();
-            const complaint = $('#homeDetailMedicalRecordComplaint').val();
-            const diagnosis = $('#homeDetailMedicalRecordDiagnosis').val();
+            const title = $('#homeDetailMedicalRecordTitle').val().replace(/</g, "&lt;");
+            const complaint = $('#homeDetailMedicalRecordComplaint').val().replace(/</g, "&lt;");
+            const diagnosis = $('#homeDetailMedicalRecordDiagnosis').val().replace(/</g, "&lt;");
 
             if (title === '' || title.length > 80 || complaint === '' || complaint.length > 5000 || diagnosis === '' || diagnosis.length > 5000) {
                 $('#homeDetailRecordFormError').css('display', 'block');
@@ -89,10 +89,10 @@ function showDetailMedicalRecordsById(detailMedicalRecord) {
         (i+1) +
         '</th>' +
         '<td>' +
-        detailMedicalRecord[i].title +
+        detailMedicalRecord[i].title.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        detailMedicalRecord[i].doctorName +
+        detailMedicalRecord[i].doctorName.replace(/</g, "&lt;") +
         '</td>' +
         '</tr>';
     }
@@ -107,10 +107,10 @@ function onMedicalRecordDataClick(cid) {
     resetHomePage();
     const patientData = recentMedicalRecordsData.find((medicalRecords) => medicalRecords.cid === cid);
     $('#homeDetailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
-    $('#homeDetailFullname').text(patientData.fullname);
+    $('#homeDetailFullname').text(patientData.fullname.replace(/</g, "&lt;"));
     $('#homeDetailGender').html((parseInt(patientData.gender) === 0) ? "Male" : "Female");
-    $("#homeDetailDOB").html(patientData.dob);
-    $('#homeDetailPhoneNumber').html(patientData.phonenumber);
+    $("#homeDetailDOB").html(patientData.dob.replace(/</g, "&lt;"));
+    $('#homeDetailPhoneNumber').html(patientData.phonenumber.replace(/</g, "&lt;"));
     $('#homeDetailCID').html(patientData.cid);
     showLoading();
     $.post('http://vc-medicrecord/getDetailMedicalRecordsById', JSON.stringify({ cid }))
@@ -129,16 +129,16 @@ function showMedicalRecordsTable(medicalRecords) {
         (i+1) +
         '</th>' +
         '<td>' +
-        medicalRecords[i].fullname +
+        medicalRecords[i].fullname.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].phonenumber +
+        medicalRecords[i].phonenumber.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].title +
+        medicalRecords[i].title.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].doctorName +
+        medicalRecords[i].doctorName.replace(/</g, "&lt;") +
         '</td>' +
         '</tr>';
     }

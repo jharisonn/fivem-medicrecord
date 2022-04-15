@@ -65,9 +65,9 @@ function submitEditMedicalRecordsById(data) {
 function showMedicalRecordsPageDetailForm(medicalRecordsId) {
     const medicalRecordDetail = medicalRecordsDetailTable.find((medicalRecord) => medicalRecord.id === medicalRecordsId);
 
-    $('#medicalRecordsDetailContainerTitle').val(medicalRecordDetail.title);
-    $('#medicalRecordsDetailContainerComplaint').val(medicalRecordDetail.complaint);
-    $('#medicalRecordsDetailContainerDiagnosis').val(medicalRecordDetail.diagnosis);
+    $('#medicalRecordsDetailContainerTitle').val(medicalRecordDetail.title.replace(/</g, "&lt;"));
+    $('#medicalRecordsDetailContainerComplaint').val(medicalRecordDetail.complaint.replace(/</g, "&lt;"));
+    $('#medicalRecordsDetailContainerDiagnosis').val(medicalRecordDetail.diagnosis.replace(/</g, "&lt;"));
     $('#medicalRecordsDetailContainerDoctor').val(medicalRecordDetail.doctorName);
 
     $('#medicalRecordsDetailContainerFormError').css('display', 'none');
@@ -87,9 +87,9 @@ function showMedicalRecordsPageDetailForm(medicalRecordsId) {
 
     $('#submitMedicalRecordsDetailContainerForm').unbind();
     $('#submitMedicalRecordsDetailContainerForm').click(() => {
-        const title = $('#medicalRecordsDetailContainerTitle').val();
-        const complaint = $('#medicalRecordsDetailContainerComplaint').val();
-        const diagnosis = $('#medicalRecordsDetailContainerDiagnosis').val();
+        const title = $('#medicalRecordsDetailContainerTitle').val().replace(/</g, "&lt;");
+        const complaint = $('#medicalRecordsDetailContainerComplaint').val().replace(/</g, "&lt;");
+        const diagnosis = $('#medicalRecordsDetailContainerDiagnosis').val().replace(/</g, "&lt;");
 
         if (title === "" || title.length > 80 || complaint === "" || complaint.length > 5000 || diagnosis === "" || diagnosis.length > 5000) {
             $('#medicalRecordsDetailContainerFormError').css('display', 'block');
@@ -127,10 +127,10 @@ function showMedicalRecordsPageDetailTable(medicalRecords) {
         (i+1) +
         '</th>' +
         '<td>' +
-        medicalRecords[i].title +
+        medicalRecords[i].title.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].doctorName +
+        medicalRecords[i].doctorName.replace(/</g, "&lt;") +
         '</td>' +
         '</tr>';
     }
@@ -147,9 +147,9 @@ function showMedicalRecordsPageDetail(cid) {
     const patientData = medicalRecordsTableData.find((medicalRecord) => medicalRecord.cid === cid);
 
     $('#medicalRecordsDetailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
-    $('#medicalRecordsFullname').html(patientData.fullname);
+    $('#medicalRecordsFullname').html(patientData.fullname.replace(/</g, "&lt;"));
     $('#medicalRecordsGender').html((parseInt(patientData.gender) === 0) ? "Male" : "Female");
-    $('#medicalRecordsDOB').html(patientData.dob);
+    $('#medicalRecordsDOB').html(patientData.dob.replace(/</g, "&lt;"));
     $('#medicalRecordsPhoneNumber').html(patientData.phonenumber);
     $('#medicalRecordsCID').html(patientData.cid);
 
@@ -169,13 +169,13 @@ function showMedicalRecordsResponse(medicalRecords) {
         (i+1) +
         '</th>' +
         '<td>' +
-        medicalRecords[i].fullname +
+        medicalRecords[i].fullname.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].title +
+        medicalRecords[i].title.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
-        medicalRecords[i].doctorName +
+        medicalRecords[i].doctorName.replace(/</g, "&lt;") +
         '</td>' +
         '<td>' +
         '<button onclick="showMedicalRecordsPageDetail(' + medicalRecords[i].cid + ')" class="btn btn-vector-success" style="margin-right: 0.83vw" type="button">VIEW</a>' +
@@ -308,7 +308,7 @@ window.medicalRecords = (item) => {
         $('#medicalRecordSearchCID').css('display', 'none');
         $('#medicalRecordCID').prop('disabled', true);
 
-        $('#medicalRecordFullname').val(item.userData[0].fullname);
+        $('#medicalRecordFullname').val(item.userData[0].fullname.replace(/</g, "&lt;"));
         $('#medicalRecordGender').val((parseInt(item.userData[0].gender) === 0) ? "0" : "1");
         $('#medicalRecordPhoneNumber').val(item.userData[0].phonenumber);
     }
