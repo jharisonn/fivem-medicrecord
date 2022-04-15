@@ -2,11 +2,13 @@ local job = "non-doctor"
 
 RegisterCommand("showMed", function()
     Citizen.CreateThread(function() 
+        TriggerEvent("animation:PlayAnimation", "tablet2")
         ToggleUI(true)
     end)
 end)
 
 RegisterNUICallback("close", function()
+    TriggerEvent("animation:PlayAnimation", "cancel")
     ToggleUI(false)
 end)
 
@@ -241,6 +243,7 @@ end)
 
 RegisterNetEvent('vector:unstuck')
 AddEventHandler('vector:unstuck', function()
+    TriggerEvent("animation:PlayAnimation", "cancel")
     ToggleUI(false)
 end)
 

@@ -188,7 +188,6 @@ function clearMedicalRecordsPageDetail() {
 function submitEditMedicalRecordsById(data) {
     showLoading();
     $('#confirmationModal').modal('hide');
-    console.log(JSON.stringify(data));
     $.post('http://vc-medicrecord/submitEditMedicalRecordsById', JSON.stringify(data));
 }
 
@@ -1009,7 +1008,7 @@ $(document).ready(function () {
 
         clearMedicalRecordsPage();
         showLoading();
-        $.post('http://vc-medicrecord/searchMedicalRecords',JSON.stringify({ query }));
+        $.post('http://vc-medicrecord/searchMedicalRecords',JSON.stringify({ query: query.toLowerCase() }));
     });
     $('#createSchedule').click(() => {
         clearSchedulePage();
