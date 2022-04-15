@@ -106,9 +106,9 @@ function showDetailMedicalRecordsById(detailMedicalRecord) {
 function onMedicalRecordDataClick(cid) {
     resetHomePage();
     const patientData = recentMedicalRecordsData.find((medicalRecords) => medicalRecords.cid === cid);
-    $('#homeDetailImage').attr('src', (patientData.gender === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
+    $('#homeDetailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
     $('#homeDetailFullname').text(patientData.fullname);
-    $('#homeDetailGender').html((patientData.gender === 0) ? "Male" : "Female");
+    $('#homeDetailGender').html((parseInt(patientData.gender) === 0) ? "Male" : "Female");
     $("#homeDetailDOB").html(patientData.dob);
     $('#homeDetailPhoneNumber').html(patientData.phonenumber);
     $('#homeDetailCID').html(patientData.cid);

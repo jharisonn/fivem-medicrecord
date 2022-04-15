@@ -146,9 +146,9 @@ function showMedicalRecordsPageDetail(cid) {
     showLoading();
     const patientData = medicalRecordsTableData.find((medicalRecord) => medicalRecord.cid === cid);
 
-    $('#medicalRecordsDetailImage').attr('src', (patientData.gender === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
+    $('#medicalRecordsDetailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
     $('#medicalRecordsFullname').html(patientData.fullname);
-    $('#medicalRecordsGender').html((patientData.gender === 0) ? "Male" : "Female");
+    $('#medicalRecordsGender').html((parseInt(patientData.gender) === 0) ? "Male" : "Female");
     $('#medicalRecordsDOB').html(patientData.dob);
     $('#medicalRecordsPhoneNumber').html(patientData.phonenumber);
     $('#medicalRecordsCID').html(patientData.cid);
@@ -309,7 +309,7 @@ window.medicalRecords = (item) => {
         $('#medicalRecordCID').prop('disabled', true);
 
         $('#medicalRecordFullname').val(item.userData[0].fullname);
-        $('#medicalRecordGender').val((item.userData[0].gender === 0) ? "0" : "1");
+        $('#medicalRecordGender').val((parseInt(item.userData[0].gender) === 0) ? "0" : "1");
         $('#medicalRecordPhoneNumber').val(item.userData[0].phonenumber);
     }
     else if (item.type === "createNewMedicalRecordByCIDResponse") {

@@ -216,7 +216,7 @@ window.schedule = (item) => {
         $('#scheduleCID').prop('disabled', true);
 
         $('#scheduleFullname').val(item.userData[0].fullname);
-        $('#scheduleGender').val((item.userData[0].gender === 0) ? "0" : "1");
+        $('#scheduleGender').val((parseInt(item.userData[0].gender) === 0) ? "0" : "1");
         $('#schedulePhoneNumber').val(item.userData[0].phonenumber);
     }
     else if (item.type === "newScheduleResponse") {

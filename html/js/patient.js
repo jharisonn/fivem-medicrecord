@@ -61,7 +61,7 @@ function createMedicalRecordCardsHandler(id) {
     const patientData = patientsSearchData.find((data) => data.id === id);
 
     $('#fullname').val(patientData.fullname);
-    $('#gender').val((patientData.gender === 0) ? "0" : "1");
+    $('#gender').val((parseInt(patientData.gender) === 0) ? "0" : "1");
     $('#dateofbirth').val(patientData.dob);
     $('#phonenumber').val(patientData.phonenumber);
     $('#cid').val(patientData.id);
@@ -96,9 +96,9 @@ function viewMedicalRecordCardsHandler(id) {
 
     const patientData = patientsSearchData.find((data) => data.id === id);
 
-    $('#detailImage').attr('src', (patientData.gender === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
+    $('#detailImage').attr('src', (parseInt(patientData.gender) === 0) ? "https://bootdey.com/img/Content/avatar/avatar7.png" : "https://bootdey.com/img/Content/avatar/avatar3.png");
     $('#detailFullname').text(patientData.fullname);
-    $('#detailGender').text((patientData.gender === 0) ? 'Male' : 'Female');
+    $('#detailGender').text((parseInt(patientData.gender) === 0) ? 'Male' : 'Female');
     $('#detailDOB').text(patientData.dob);
     $('#detailPhoneNumber').text(patientData.phonenumber);
     $('#detailCID').text(patientData.id);
@@ -139,7 +139,7 @@ function showPatientsData(patients) {
     for(var i=0; i<patients.length; i++) {
         let card = '<div class="card mis-card" style="background-color: #212732 !important; border-color: #e4e4e4;"><div class="card-body" style="background-color: #212732 !important">';
         card += getCardBody('Fullname', patients[i].fullname);
-        card += getCardBody('Gender', (patients[i].gender === 0) ? 'Male' : 'Female');
+        card += getCardBody('Gender', (parseInt(patients[i].gender) === 0) ? 'Male' : 'Female');
         card += getCardBody('DOB', patients[i].dob);
         card += getCardBody('Phone Number', patients[i].phonenumber);
         card += getCardBody('CID', patients[i].id);
